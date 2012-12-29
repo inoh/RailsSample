@@ -1,0 +1,3 @@
+== Rails sample code
+
+Railsのサンプルコードを備忘録としてあげます。
