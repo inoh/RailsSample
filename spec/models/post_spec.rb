@@ -21,6 +21,10 @@ describe Post do
       @post.author.name.should == "author name"
     end
 
+    it "comments count" do
+      @post.comments.count.should == 1
+    end
+
     it "comment.body" do
       @post.comments.first.body.should == "comment body"
     end
@@ -49,7 +53,7 @@ describe Post do
       @post = posts(:posts_01)
       @post.title = "update title"
       @post.comments.first.body = "update body"
-      @post.comments << Comment.new(:body => 'add comment')
+      @post.comments.create(:body => 'add comment')
       @post.save
       @post = Post.find(@post.id)
     end
@@ -65,9 +69,7 @@ describe Post do
     end
 
     it "post count" do
-      pending "commentsが追加されない" do
-        Post.count.should == 2
-      end
+      @post.comments.count.should == 2
     end
   end
 
