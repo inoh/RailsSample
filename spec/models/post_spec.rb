@@ -49,27 +49,57 @@ describe Post do
   end
 
   describe "has_manyのautosave確認" do
-    before do
-      @post = posts(:posts_01)
-      @post.title = "update title"
-      @post.comments.first.body = "update body"
-      @post.comments.create(:body => 'add comment')
-      @post.save
-      @post = Post.find(@post.id)
-    end
+    describe "saveを実行した場合" do      
 
-    it "title" do
-      @post.title.should == "update title"
-    end
-
-    it "comment body" do
-      pending "commentsが更新されない" do
-        @post.comments.first.body.should == "update body"
+      before do
+        @post = posts(:posts_01)
+        @post.title = "update title"
+        @post.comments.first.body = "update body"
+        @post.comments << Comment.new(:body => 'add comment')
+        @post.save
+        @post = Post.find(@post.id)
       end
+
+      it "title" do
+        @post.title.should == "update title"
+      end
+
+      it "comment body" do
+        pending "commentsが更新されない" do
+          @post.comments.first.body.should == "update body"
+        end
+      end
+
+      it "post count" do
+        @post.comments.count.should == 2
+      end
+
     end
 
-    it "post count" do
-      @post.comments.count.should == 2
+    describe "saveを実行しなかった場合" do      
+
+      before do
+        @post = posts(:posts_01)
+        @post.title = "update title"
+        @post.comments.first.body = "update body"
+        @post.comments << Comment.new(:body => 'add comment')
+        @post = Post.find(@post.id)
+      end
+
+      it "title" do
+        @post.title.should == "post title"
+      end
+
+      it "comment body" do
+        @post.comments.first.body.should == comments(:comments_01).body
+      end
+
+      it "post count" do
+        pending "saveしてないので勝手に更新される" do
+          @post.comments.count.should == 1
+        end
+      end
+
     end
   end
 
