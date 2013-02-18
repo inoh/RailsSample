@@ -35,7 +35,7 @@ describe Post do
       @post = posts(:posts_01)
       @post.title = "update title"
       @post.author.name = "update name"
-      @post.save
+      @post.save!
       @post = Post.find(@post.id)
     end
 
@@ -55,8 +55,8 @@ describe Post do
         @post = posts(:posts_01)
         @post.title = "update title"
         @post.comments.first.body = "update body"
-        @post.comments << Comment.new(:body => 'add comment')
-        @post.save
+        @post.comments.build(:body => 'add comment')
+        @post.save!
         @post = Post.find(@post.id)
       end
 
@@ -82,7 +82,7 @@ describe Post do
         @post = posts(:posts_01)
         @post.title = "update title"
         @post.comments.first.body = "update body"
-        @post.comments << Comment.new(:body => 'add comment')
+        @post.comments.build(:body => 'add comment')
         @post = Post.find(@post.id)
       end
 
@@ -95,9 +95,7 @@ describe Post do
       end
 
       it "post count" do
-        pending "saveしてないので勝手に更新される" do
-          @post.comments.count.should == 1
-        end
+        @post.comments.count.should == 1
       end
 
     end
