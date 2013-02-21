@@ -54,7 +54,7 @@ describe Post do
       before do
         @post = posts(:posts_01)
         @post.title = "update title"
-        @post.comments.first.body = "update body"
+        @post.comments[0].body = "update body"
         @post.comments.build(:body => 'add comment')
         @post.save!
         @post = Post.find(@post.id)
@@ -65,9 +65,7 @@ describe Post do
       end
 
       it "comment body" do
-        pending "commentsが更新されない" do
-          @post.comments.first.body.should == "update body"
-        end
+        @post.comments[0].body.should == "update body"
       end
 
       it "post count" do
